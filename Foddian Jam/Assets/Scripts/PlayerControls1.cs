@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerControls1 : MonoBehaviour
 {
     Rigidbody2D rigidbody;
     bool rotationStarted = false;
@@ -10,15 +10,12 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-
-        rigidbody.velocity = Vector2.right;
     }
 
     private void Update()
     {
         if (Input.GetMouseButton(0) && readyToRotate(getClickPosition()))
         {
-            print("rotation started");
             rotationStarted = true;
         }
 
