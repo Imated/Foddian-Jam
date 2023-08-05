@@ -9,6 +9,8 @@ public class BreakCheck : MonoBehaviour
     
     [SerializeField] float angleThreshold;
     [SerializeField] float speedThreshold;
+    [SerializeField] bool useLinearGain;
+    [SerializeField] float linearSpeedGain;
     [SerializeField] AnimationCurve speedGainCurve;
     [SerializeField] GameObject speedFragmentPerfab;
     [SerializeField] Vector2 speedFragmentsRange;
@@ -87,10 +89,18 @@ public class BreakCheck : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle") && !curBreak)
         {
-            // Gain speed according to Speed Gain Curve based on time in contact
-            rb.velocity *= 1 + speedGainCurve.Evaluate(_timer);
-            _timer += Time.deltaTime;
-
+            if (useLinearGain) // Linear speed scaling
+            {
+                // Gain a flat amount of speed per tick
+                rb.velocity = (rb.velocity.magnitude + linearSpeedGain) * rb.velocity.normalized;
+            }
+            else // Multiplicative scaling
+            {
+                // Gain speed according to Speed Gain Curve based on time in contact
+                rb.velocity *= 1 + speedGainCurve.Evaluate(_timer);
+                _timer += Time.deltaTime;
+            }
+            
             // Find normal of curve surface
             Vector2 averageNormal = Vector2.zero;
             foreach (ContactPoint2D contact in collision.contacts)
