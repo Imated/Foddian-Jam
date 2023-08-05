@@ -1,19 +1,22 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BreakCheck : MonoBehaviour
 {
-    public GameObject character;
     public Rigidbody2D rb;
+    public Collider2D ballCollider;
 
     public float angleThreshold = 45f;
     public float speedThreshold = 10f;
+    public float breakSpeedMod = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = character.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        ballCollider = GetComponent<Collider2D>();
 
         // Gets velocity magnitude of exactly 4
         //Vector2 force = Vector2.up * 200;
@@ -47,10 +50,14 @@ public class BreakCheck : MonoBehaviour
 
             // Angles closer to 0 are sharp collisions, 90 is parallel to surface
             float impactAngle = Vector2.Angle(relVelocity, averageNormal);
-            if ((impactAngle < angleThreshold) && (relVelocity.magnitude >= speedThreshold))
+            if ((impactAngle <= angleThreshold) && (relVelocity.magnitude >= speedThreshold))
             {
-                // Change whatever values need to be changed for a curve break here
+                // At a 45 degree impact, go perpendicular to surface (Unity physics)
+                // At a 0 degree impact, go straight forward
                 print("break");
+                ballCollider.isTrigger = true;
+                float breakVelocity = relVelocity.magnitude * breakSpeedMod;
+                rb.velocity = rb.velocity.normalized * breakVelocity;
             }
         }
 
