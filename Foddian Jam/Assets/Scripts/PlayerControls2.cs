@@ -6,6 +6,7 @@ public class PlayerControls2 : MonoBehaviour
 {
     [SerializeField] float turningDegreesPerFrame = 0;
     [SerializeField] float launchMagnitude = 0;
+    [SerializeField] float launchThreshold = 0;
 
     Rigidbody2D rigidbody;
     private Camera _camera;
@@ -28,7 +29,7 @@ public class PlayerControls2 : MonoBehaviour
             turnRight();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) & rigidbody.velocity.magnitude == 0)
+        if (Input.GetKeyDown(KeyCode.Space) & rigidbody.velocity.magnitude <= launchThreshold)
         {
             Vector2 mousPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 moveVector = mousPosition - new Vector2(transform.position.x, transform.position.y);
