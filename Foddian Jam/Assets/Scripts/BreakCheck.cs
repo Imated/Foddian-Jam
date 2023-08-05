@@ -9,6 +9,7 @@ public class BreakCheck : MonoBehaviour
     [SerializeField] private float speedThreshold;
     [SerializeField] private AnimationCurve speedGainCurve;
     public float deflectionMod;
+    public float bounceMod;
 
     [SerializeField] bool curBreak;
     [SerializeField] float _timer;
@@ -19,7 +20,7 @@ public class BreakCheck : MonoBehaviour
         ballCollider = GetComponent<Collider2D>();
 
         curBreak = false;
-        rb.velocity = new Vector2(0, 10);
+        //rb.velocity = new Vector2(0, 10);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -37,22 +38,31 @@ public class BreakCheck : MonoBehaviour
 
             // Angles closer to 0 are sharp collisions, 90 is parallel to surface
             float impactAngle = Vector2.Angle(relVelocity, averageNormal);
-            if ((impactAngle <= angleThreshold) && (relVelocity.magnitude >= speedThreshold))
+            if (impactAngle <= angleThreshold)
             {
-                // At a 45 degree impact, go perpendicular to surface (Unity physics)
-                // At a 0 degree impact, go straight forward
-                
-                // Set flags
-                print("break");
                 print("impact angle: " + impactAngle);
-                curBreak = true;
-                ballCollider.isTrigger = true;
+                if (relVelocity.magnitude >= speedThreshold)
+                {
+                    // At a 45 degree impact, go perpendicular to surface (Unity physics)
+                    // At a 0 degree impact, go straight forward
 
-                // Calculate deflection velocity vector
-                Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
+                    // Set flags
+                    print("break");
+                    curBreak = true;
+                    ballCollider.isTrigger = true;
 
-                // Apply deflection against velocity before collision
-                rb.velocity = -(relVelocity) + deflectVelocity;
+                    // Calculate deflection velocity vector
+                    Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
+
+                    // Apply deflection against velocity before collision
+                    rb.velocity = -(relVelocity) + deflectVelocity;
+                }
+                //else
+                //{
+                //    print("bounce");
+                //    Vector2 reflectVelocity = Vector2.Reflect(-(relVelocity), averageNormal);
+                //    rb.velocity = reflectVelocity * bounceMod;
+                //}
             }
         }
         else

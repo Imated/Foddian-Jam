@@ -6,30 +6,30 @@ public class PlayerControls2 : MonoBehaviour
 {
     [SerializeField] float turningForce;
 
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        rigidbody.velocity = Vector2.up * 5;
+        rb.velocity = Vector2.up * 5;
     }
 
     void turnLeft()
     {
-        Vector2 originalVeclocity = rigidbody.velocity;
+        Vector2 originalVeclocity = rb.velocity;
 
-        rigidbody.velocity = Quaternion.AngleAxis(.1f, Vector3.forward) * rigidbody.velocity;
+        rb.velocity = Quaternion.AngleAxis(.1f, Vector3.forward) * rb.velocity;
     }
 
     void turnRight()
     {
-        Vector2 originalVeclocity = rigidbody.velocity;
+        Vector2 originalVeclocity = rb.velocity;
 
-        rigidbody.velocity = Quaternion.AngleAxis(-.1f, Vector3.forward) * rigidbody.velocity;
+        rb.velocity = Quaternion.AngleAxis(-.1f, Vector3.forward) * rb.velocity;
     }
 
     private void Update()
