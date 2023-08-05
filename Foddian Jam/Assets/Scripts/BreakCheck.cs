@@ -27,7 +27,6 @@ public class BreakCheck : MonoBehaviour
         ballCollider = GetComponent<Collider2D>();
 
         curBreak = false;
-        rb.velocity = new Vector2(0, 10);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
