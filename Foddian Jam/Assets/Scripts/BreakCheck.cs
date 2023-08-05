@@ -27,13 +27,17 @@ public class BreakCheck : MonoBehaviour
     {
     }
 
+    //public bool BreakCurve()
+    //{
+
+    //}
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Vector2 relVelocity = collision.relativeVelocity;
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            print("pre impact speed: " + relVelocity.magnitude);
             Vector2 averageNormal = Vector2.zero;
             foreach (ContactPoint2D contact in collision.contacts)
             {
@@ -43,13 +47,11 @@ public class BreakCheck : MonoBehaviour
 
             // Angles closer to 0 are sharp collisions, 90 is parallel to surface
             float impactAngle = Vector2.Angle(relVelocity, averageNormal);
-            print("angle of impact: " + impactAngle);
             if ((impactAngle < angleThreshold) && (relVelocity.magnitude >= speedThreshold))
             {
+                // Change whatever values need to be changed for a curve break here
                 print("break");
             }
-            print("post impact speed: " + rb.velocity.magnitude);
-            print("component toward surface: " + relVelocity.magnitude * Mathf.Cos(impactAngle * Mathf.Deg2Rad));
         }
 
         else
