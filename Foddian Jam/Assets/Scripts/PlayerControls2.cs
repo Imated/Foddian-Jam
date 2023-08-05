@@ -4,32 +4,14 @@ using UnityEngine;
 
 public class PlayerControls2 : MonoBehaviour
 {
-    [SerializeField] float turningForce;
+    [SerializeField] float turningDegreesPerFrame = 0;
+    [SerializeField] float launchMagnitude = 0;
 
     Rigidbody2D rigidbody;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
-        rigidbody.velocity = Vector2.up * 5;
-    }
-
-    void turnLeft()
-    {
-        Vector2 originalVeclocity = rigidbody.velocity;
-
-        rigidbody.velocity = Quaternion.AngleAxis(.1f, Vector3.forward) * rigidbody.velocity;
-    }
-
-    void turnRight()
-    {
-        Vector2 originalVeclocity = rigidbody.velocity;
-
-        rigidbody.velocity = Quaternion.AngleAxis(-.1f, Vector3.forward) * rigidbody.velocity;
     }
 
     private void Update()
@@ -43,5 +25,32 @@ public class PlayerControls2 : MonoBehaviour
         {
             turnRight();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) & rigidbody.velocity.magnitude == 0)
+        {
+            Vector2 mousPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 moveVector = mousPosition - new Vector2(transform.position.x, transform.position.y);
+            
+            launch(moveVector);
+        }
+    }
+
+    void turnLeft()
+    {
+        Vector2 originalVeclocity = rigidbody.velocity;
+
+        rigidbody.velocity = Quaternion.AngleAxis(turningDegreesPerFrame, Vector3.forward) * rigidbody.velocity;
+    }
+
+    void turnRight()
+    {
+        Vector2 originalVeclocity = rigidbody.velocity;
+
+        rigidbody.velocity = Quaternion.AngleAxis(-turningDegreesPerFrame, Vector3.forward) * rigidbody.velocity;
+    }
+
+    void launch(Vector2 direction)
+    {
+        rigidbody.velocity = direction.normalized * launchMagnitude;
     }
 }

@@ -17,9 +17,9 @@ public class BreakCheck : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
-
-        curBreak = false;
-        rb.velocity = new Vector2(0, 10);
+        // Gets velocity magnitude of exactly 4
+        //Vector2 force = Vector2.up * 200;
+        //rb.AddForce(force);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
