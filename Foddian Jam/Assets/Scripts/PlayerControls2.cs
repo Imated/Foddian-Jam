@@ -8,9 +8,11 @@ public class PlayerControls2 : MonoBehaviour
     [SerializeField] float launchMagnitude = 0;
 
     Rigidbody2D rigidbody;
+    private Camera _camera;
 
     private void Awake()
     {
+        _camera = Camera.main;
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -28,7 +30,7 @@ public class PlayerControls2 : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) & rigidbody.velocity.magnitude == 0)
         {
-            Vector2 mousPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 moveVector = mousPosition - new Vector2(transform.position.x, transform.position.y);
             
             launch(moveVector);
