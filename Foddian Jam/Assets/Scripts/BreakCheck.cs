@@ -7,13 +7,14 @@ public class BreakCheck : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D ballCollider;
     
-    [SerializeField] private float angleThreshold;
-    [SerializeField] private float speedThreshold;
-    [SerializeField] private AnimationCurve speedGainCurve;
-    [SerializeField] private GameObject speedFragmentPerfab;
-    [SerializeField] private Vector2 speedFragmentsRange;
-    [SerializeField] private float spedFragmentsRandomOffset = 2f;
-    public float deflectionMod;
+    [SerializeField] float angleThreshold;
+    [SerializeField] float speedThreshold;
+    [SerializeField] AnimationCurve speedGainCurve;
+    [SerializeField] GameObject speedFragmentPerfab;
+    [SerializeField] Vector2 speedFragmentsRange;
+    [SerializeField] float spedFragmentsRandomOffset = 2f;
+    [SerializeField] float deflectionMod;
+    [SerializeField] float magnetMod;
 
     [SerializeField] bool curBreak;
     [SerializeField] float _timer;
@@ -45,22 +46,29 @@ public class BreakCheck : MonoBehaviour
 
             // Angles closer to 0 are sharp collisions, 90 is parallel to surface
             float impactAngle = Vector2.Angle(relVelocity, averageNormal);
-            if ((impactAngle <= angleThreshold) && (relVelocity.magnitude >= speedThreshold))
+            if (impactAngle <= angleThreshold) {
+                if (relVelocity.magnitude >= speedThreshold)
+                {
+                    // At a 45 degree impact, go perpendicular to surface (Unity physics)
+                    // At a 0 degree impact, go straight forward
+
+                    // Set flags
+                    print("break");
+                    print("impact angle: " + impactAngle);
+                    curBreak = true;
+                    ballCollider.isTrigger = true;
+
+                    // Calculate deflection velocity vector
+                    Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
+
+                    // Apply deflection against velocity before collision
+                    rb.velocity = -(relVelocity) + deflectVelocity;
+                }
+            }
+            else // Not a sharp collision
             {
-                // At a 45 degree impact, go perpendicular to surface (Unity physics)
-                // At a 0 degree impact, go straight forward
-                
-                // Set flags
-                print("break");
-                print("impact angle: " + impactAngle);
-                curBreak = true;
-                ballCollider.isTrigger = true;
-
-                // Calculate deflection velocity vector
-                Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
-
-                // Apply deflection against velocity before collision
-                rb.velocity = -(relVelocity) + deflectVelocity;
+                Vector2 magnetism = relVelocity.magnitude * magnetMod * -(averageNormal);
+                rb.velocity += magnetism;
             }
         }
         else
@@ -79,8 +87,21 @@ public class BreakCheck : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle") && !curBreak)
         {
+            // Gain speed according to Speed Gain Curve based on time in contact
             rb.velocity *= 1 + speedGainCurve.Evaluate(_timer);
             _timer += Time.deltaTime;
+
+            // Find normal of curve surface
+            Vector2 averageNormal = Vector2.zero;
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                averageNormal += contact.normal;
+            }
+            averageNormal = averageNormal.normalized;
+
+            // Apply magnet velocity toward curve
+            Vector2 magnetism = rb.velocity.magnitude * magnetMod * -(averageNormal);
+            rb.velocity += magnetism;
         }
         else
         {
