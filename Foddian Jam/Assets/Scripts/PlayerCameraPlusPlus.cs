@@ -32,5 +32,9 @@ public class PlayerCameraPlusPlus : MonoBehaviour
             virtualCamera.m_Lens.OrthographicSize =
                 Mathf.Lerp(virtualCamera.m_Lens.OrthographicSize, zoomOutSize, _timer);
         }
+
+        if (Math.Abs(virtualCamera.m_Lens.OrthographicSize - zoomInSize) < 0.1f ||
+            Math.Abs(virtualCamera.m_Lens.OrthographicSize - zoomOutSize) < 0.1f)
+            _timer = 0f;
     }
 }
