@@ -135,8 +135,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a33f5fc8cdbef147ba9cc33bf8a3b39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   rb: {fileID: 0}
   ballCollider: {fileID: 0}
   angleThreshold: 45
@@ -154,8 +154,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0034637
-      value: 0.10992556
+      time: 0.9954431
+      value: 0.03119798
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -168,8 +168,8 @@ MonoBehaviour:
   speedFragmentPerfab: {fileID: 6537460333873606573, guid: 29b2293647f9150419db4b724a1d7ddf, type: 3}
   speedFragmentsRange: {x: 3, y: 7}
   spedFragmentsRandomOffset: 1
-  deflectionMod: 0.5
-  magnetMod: 0
+  deflectionMod: 0.8
+  magnetMod: 0.2
   curBreak: 0
   _timer: 0
 --- !u!114 &4061963138789042701
@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 290970c465ac18347b12a2eb4badc383, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   turningDegreesPerFrame: 0.5
   launchMagnitude: 5
   launchThreshold: 1
