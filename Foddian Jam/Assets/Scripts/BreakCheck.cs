@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,13 @@ public class BreakCheck : MonoBehaviour
     public GameObject character;
     public Rigidbody2D rb;
 
-    public float angleThreshold = 45f;
-    public float speedThreshold = 10f;
+    [SerializeField] private float angleThreshold = 45f;
+    [SerializeField] private float speedThreshold = 10f;
+    [SerializeField] private AnimationCurve speedGainCurve;
 
-    // Start is called before the first frame update
-    void Start()
+    private float _timer;
+
+    private void Start()
     {
         rb = character.GetComponent<Rigidbody2D>();
 
@@ -19,18 +22,8 @@ public class BreakCheck : MonoBehaviour
         //Vector2 force = Vector2.up * 200;
         //rb.AddForce(force);
 
-        rb.velocity = new Vector2(0, 10);
+        rb.velocity = new Vector2(0, 4);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    //public bool BreakCurve()
-    //{
-
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -53,7 +46,25 @@ public class BreakCheck : MonoBehaviour
                 print("break");
             }
         }
+        else
+        {
+            print("wrong tag lmao");
+        }
+    }
 
+    // private void Update()
+    // {
+    //     if (_timer > 1f)
+    //         _timer = 0f;
+    // }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            rb.velocity *= 1 + speedGainCurve.Evaluate(_timer);
+            _timer += Time.deltaTime;
+        }
         else
         {
             print("wrong tag lmao");
