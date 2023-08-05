@@ -10,8 +10,8 @@ public class PlayerControls2 : MonoBehaviour
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private float launchForce;
     [SerializeField, Range(0, 30)] private int numberOfPoints = 15;
-    [SerializeField, Range(0.001f, 1.0f)] private float spaceBetweenPoints = 0.05f;
-    
+    [SerializeField, Range(0, 30)] private int trajectoryLineLength = 15;
+
     private GameObject[] _points;
     private Rigidbody2D _rigidbody;
     private Camera _camera;
@@ -32,21 +32,25 @@ public class PlayerControls2 : MonoBehaviour
 
     private Vector2 PointPosition(float t)
     {
-        var pos = (Vector2) transform.position + (_direction.normalized * launchForce * t) + 0.5f * Physics2D.gravity * (t * t);
+        var pos = (Vector2) transform.position + (_direction.normalized * trajectoryLineLength * t) + 0.5f * Physics2D.gravity * (t * t);
         return pos;
     }
+
 
     private void Update()
     {
         var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var direction = mousePosition - transform.position;
         _direction = direction;
-        
+
+        float totalTime = (2 * launchForce) / Mathf.Abs(Physics2D.gravity.y);
 
         for (var i = 0; i < numberOfPoints; i++)
         {
-            _points[i].transform.position = PointPosition(i * spaceBetweenPoints);
+            float t = totalTime * (i / (float)numberOfPoints);
+            _points[i].transform.position = PointPosition(t);
         }
+
         
         if (Input.GetMouseButton(0))
         {
@@ -58,12 +62,20 @@ public class PlayerControls2 : MonoBehaviour
             turnRight();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) & _rigidbody.velocity.magnitude <= launchThreshold)
+        if (_rigidbody.velocity.magnitude <= launchThreshold)
         {
-            Vector2 mousPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 moveVector = mousPosition - new Vector2(transform.position.x, transform.position.y);
+            for (var i = 0; i < numberOfPoints; i++)
+                _points[i].SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Vector2 mousPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 moveVector = mousPosition - new Vector2(transform.position.x, transform.position.y);
             
-            launch(moveVector);
+                launch(moveVector);
+            
+                for (var i = 0; i < numberOfPoints; i++)
+                    _points[i].SetActive(false);
+            }
         }
     }
 

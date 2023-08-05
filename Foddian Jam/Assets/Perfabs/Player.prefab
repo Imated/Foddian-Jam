@@ -169,6 +169,7 @@ MonoBehaviour:
   speedFragmentsRange: {x: 3, y: 7}
   spedFragmentsRandomOffset: 1
   deflectionMod: 0.5
+  magnetMod: 0
   curBreak: 0
   _timer: 0
 --- !u!114 &4061963138789042701
@@ -186,7 +187,7 @@ MonoBehaviour:
   turningDegreesPerFrame: 0.5
   launchMagnitude: 5
   launchThreshold: 1
-  pointPrefab: {fileID: 0}
-  maxLaunchRange: 5
-  numberOfPoints: 15
-  spaceBetweenPoints: 0.05
+  pointPrefab: {fileID: 7340383325950217858, guid: 529cfff5a558b3b48bc2dc5caa6c04b2, type: 3}
+  launchForce: 1
+  numberOfPoints: 5
+  trajectoryLineLength: 15
