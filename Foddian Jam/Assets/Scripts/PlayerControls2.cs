@@ -77,6 +77,11 @@ public class PlayerControls2 : MonoBehaviour
                     _points[i].SetActive(false);
             }
         }
+        else
+        {
+            for (var i = 0; i < numberOfPoints; i++)
+                _points[i].SetActive(false);
+        }
     }
 
     void turnLeft()
