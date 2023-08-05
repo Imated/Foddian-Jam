@@ -21,7 +21,6 @@ public class BreakCheck : MonoBehaviour
         //Vector2 force = Vector2.up * 200;
         //rb.AddForce(force);
 
-        rb.velocity = new Vector2(0, 4);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

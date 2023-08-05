@@ -178,4 +178,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290970c465ac18347b12a2eb4badc383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turningForce: 5
+  turningDegreesPerFrame: 0.5
+  launchMagnitude: 5
