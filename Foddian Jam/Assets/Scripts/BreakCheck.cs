@@ -5,22 +5,21 @@ public class BreakCheck : MonoBehaviour
     public Rigidbody2D rb;
     public Collider2D ballCollider;
     
-    [SerializeField] private float angleThreshold = 45f;
-    [SerializeField] private float speedThreshold = 10f;
+    [SerializeField] private float angleThreshold;
+    [SerializeField] private float speedThreshold;
     [SerializeField] private AnimationCurve speedGainCurve;
-    public float breakSpeedMod = 0.5f;
+    public float deflectionMod;
 
-    private float _timer;
+    [SerializeField] bool curBreak;
+    [SerializeField] float _timer;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
-
         // Gets velocity magnitude of exactly 4
         //Vector2 force = Vector2.up * 200;
         //rb.AddForce(force);
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,10 +41,18 @@ public class BreakCheck : MonoBehaviour
             {
                 // At a 45 degree impact, go perpendicular to surface (Unity physics)
                 // At a 0 degree impact, go straight forward
+                
+                // Set flags
                 print("break");
+                print("impact angle: " + impactAngle);
+                curBreak = true;
                 ballCollider.isTrigger = true;
-                float breakVelocity = relVelocity.magnitude * breakSpeedMod;
-                rb.velocity = rb.velocity.normalized * breakVelocity;
+
+                // Calculate deflection velocity vector
+                Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
+
+                // Apply deflection against velocity before collision
+                rb.velocity = -(relVelocity) + deflectVelocity;
             }
         }
         else
@@ -62,7 +69,7 @@ public class BreakCheck : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag("Obstacle") && !curBreak)
         {
             rb.velocity *= 1 + speedGainCurve.Evaluate(_timer);
             _timer += Time.deltaTime;
@@ -71,5 +78,20 @@ public class BreakCheck : MonoBehaviour
         {
             print("wrong tag lmao");
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _timer = 0f;
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Obstacle") && curBreak)
+        {
+            ballCollider.isTrigger = false;
+            curBreak = false;
+        }
+        _timer = 0f;
     }
 }
