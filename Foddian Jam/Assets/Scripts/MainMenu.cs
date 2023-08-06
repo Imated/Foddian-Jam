@@ -1,17 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using LootLocker.Requests;
 
-public class MainMenu : MonoBehaviour
+public class LeaderboardManager2 : MonoBehaviour
 {
-    public void PlayGame()
-    {
-        SceneManager.LoadScene("Level Scene");
-    }
+    int leaderboardID = 16665;
 
-    public void QuitGame()
+    public IEnumerator SubmitScoreRoutine(int scoreToUpload)
     {
-        Application.Quit();
+        bool done = false;
+        string playerID = PlayerPrefs.GetString("PlaeyerID");
+
+        LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID.ToString(), (response) =>
+        {
+            if (response.success)
+            {
+                Debug.Log("Successfully uploaded score");
+                done = true;
+            }
+            else
+            {
+                Debug.Log("Failed" + response.Error);
+                done = true;
+            }
+        });
+        yield return new WaitWhile(() => done = false);
     }
 }
