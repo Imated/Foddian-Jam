@@ -27,8 +27,8 @@ MonoBehaviour:
   defaultRecyclable: 0
   defaultAutoPlay: 3
   defaultUpdateType: 0
-  defaultTimeScaleIndependent: 1
-  defaultEaseType: 27
+  defaultTimeScaleIndependent: 0
+  defaultEaseType: 6
   defaultEaseOvershootOrAmplitude: 1.70158
   defaultEasePeriod: 0
   defaultAutoKill: 1
@@ -40,11 +40,11 @@ MonoBehaviour:
   modules:
     showPanel: 0
     audioEnabled: 1
-    physicsEnabled: 0
+    physicsEnabled: 1
     physics2DEnabled: 1
     spriteEnabled: 1
     uiEnabled: 1
-    textMeshProEnabled: 1
+    textMeshProEnabled: 0
     tk2DEnabled: 0
     deAudioEnabled: 0
     deUnityExtendedEnabled: 0
