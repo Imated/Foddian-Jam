@@ -1,15 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using LootLocker.Requests;
+using TMPro;
 
 public class BoundaryManager : MonoBehaviour
 {
     [SerializeField] float boundaryBreakSpeed = 0;
     [SerializeField] GameObject boundaries;
     [SerializeField] GameObject timer;
-    [SerializeField] GameObject victoryText;
+    [SerializeField] GameObject endGameUI;
+    [SerializeField] Animation endGameAnim;
+    [SerializeField] TMP_Text endGameText;
     [SerializeField] Leaderboard leaderboard;
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -21,8 +21,12 @@ public class BoundaryManager : MonoBehaviour
         if (rigidBody.velocity.magnitude >= boundaryBreakSpeed)
         {
             boundaries.SetActive(false);
-            victoryText.SetActive(true);
+            endGameUI.SetActive(true);
+            endGameAnim.Play();
+            endGameText.text = $"CONGRATULATIONS! \n" +
+                               $"You have beaten the impossible in {(timer.GetComponent<Timer>().timer):F2} seconds.";
             timer.GetComponent<Timer>().timerActive = false;
+            timer.SetActive(false);
             StartCoroutine(leaderboard.SubmitScoreRoutine((int)Math.Floor(timer.GetComponent<Timer>().timer)));
         }
     }
