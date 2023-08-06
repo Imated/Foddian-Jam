@@ -8,31 +8,39 @@ public class PlayerControls1 : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] GameObject anchorPointPrefab;
     [SerializeField] GameObject failAnchorPrefab;
+    [SerializeField] LineRenderer lineRenderer;
+    LineRenderer swivelLine;
     GameObject anchorPoint;
     GameObject failAnchor;
 
-    [SerializeField] Vector2 mousePosition;
+    [SerializeField] Vector2 anchorPosition;
     [SerializeField] float angleVariance;
     [SerializeField] float driftSpeed;
-    [SerializeField] Vector2 playerToMouse;
+    [SerializeField] Vector2 playerToAnchor;
 
     
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-10, 0);
+        rb.velocity = new Vector2(-10, 0);        
     }
 
     private void Update()
     {
+        
+
         if (Input.GetMouseButtonDown(0))
         {
-            mousePosition = GetMousePosition();
+            swivelLine = Instantiate(lineRenderer);
+            swivelLine.positionCount = 2;
+            anchorPosition = GetAnchorPosition();
+            swivelLine.SetPosition(1, anchorPosition);
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (ReadyToRotate(mousePosition)) {
+            swivelLine.SetPosition(0, gameObject.transform.position);
+            if (ReadyToRotate(anchorPosition)) {
                 Revolve();
                 if (failAnchor != null)
                 {
@@ -40,7 +48,7 @@ public class PlayerControls1 : MonoBehaviour
                 }
                 if (anchorPoint == null)
                 {
-                    anchorPoint = Instantiate(anchorPointPrefab, mousePosition, Quaternion.identity);
+                    anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
                 }
             }
             else
@@ -48,12 +56,12 @@ public class PlayerControls1 : MonoBehaviour
                 Drift();
                 if (failAnchor == null)
                 {
-                    failAnchor = Instantiate(failAnchorPrefab, mousePosition, Quaternion.identity);
+                    failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
                 }
             }
         }
 
-        if (!Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0))
         {
             if (anchorPoint != null)
             {
@@ -63,21 +71,25 @@ public class PlayerControls1 : MonoBehaviour
             {
                 Destroy(failAnchor);
             }
+            if (swivelLine != null)
+            {
+                Destroy(swivelLine);
+            }
         }
 
         // Find angle between player velocity and mouse
         //if (Input.GetMouseButton(0))
         //{
-        //    Vector2 playerToMouse = GetMousePosition() - new Vector2(transform.position.x, transform.position.y);
-        //    float angle = Vector2.Angle(rb.velocity, playerToMouse);
+        //    Vector2 playerToAnchor = GetAnchorPosition() - new Vector2(transform.position.x, transform.position.y);
+        //    float angle = Vector2.Angle(rb.velocity, playerToAnchor);
         //    print(angle);
         //}
     }
 
     bool ReadyToRotate(Vector2 clickPosition)
     {
-        playerToMouse = clickPosition - new Vector2(transform.position.x, transform.position.y);
-        float angle = Vector2.Angle(rb.velocity, playerToMouse);
+        playerToAnchor = clickPosition - new Vector2(transform.position.x, transform.position.y);
+        float angle = Vector2.Angle(rb.velocity, playerToAnchor);
         // Angle of 0 is same direction, 90 is perpendicular either way, 180 is opposite
 
         if (angle >= (90 - angleVariance) && angle <= (90 + angleVariance))
@@ -90,15 +102,15 @@ public class PlayerControls1 : MonoBehaviour
         }
     }
 
-    Vector2 GetMousePosition()
+    Vector2 GetAnchorPosition()
     {
-        Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        return (mousePosition);
+        Vector2 anchorPosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        return (anchorPosition);
     }
 
     void Revolve()
     {
-        Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
+        Vector2 perpendicular = Vector2.Perpendicular(playerToAnchor);
         float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
         if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
         {
@@ -109,7 +121,7 @@ public class PlayerControls1 : MonoBehaviour
 
     void Drift()
     {
-        Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
+        Vector2 perpendicular = Vector2.Perpendicular(playerToAnchor);
         float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
         if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
         {
