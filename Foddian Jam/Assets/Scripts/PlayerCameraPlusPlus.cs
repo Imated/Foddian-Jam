@@ -14,6 +14,8 @@ public class PlayerCameraPlusPlus : MonoBehaviour
     [SerializeField] Rigidbody2D _playerRb;
     //private float _timer;
 
+    public bool cameraLock;
+
     private void Awake()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
@@ -22,7 +24,6 @@ public class PlayerCameraPlusPlus : MonoBehaviour
 
     private void Update()
     {
-
         //Mapping speed value to a target zoom value
         float speedClamp = Mathf.Clamp(_playerRb.velocity.magnitude, minSpeedThreshold, maxSpeedThreshold);
         float proportion = (speedClamp - minSpeedThreshold) / (maxSpeedThreshold - minSpeedThreshold);
