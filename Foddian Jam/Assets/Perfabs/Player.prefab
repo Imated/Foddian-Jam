@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4061963138789042698}
   - component: {fileID: 4061963138789042701}
   - component: {fileID: 4061963140273589651}
+  - component: {fileID: 1417590223}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -143,7 +144,7 @@ MonoBehaviour:
   angleThreshold: 45
   speedThreshold: 10
   useLinearGain: 1
-  linearSpeedGain: 0.1
+  linearSpeedGain: 0.5
   speedGainCurve:
     serializedVersion: 2
     m_Curve:
@@ -206,5 +207,23 @@ MonoBehaviour:
   anchorPointPrefab: {fileID: 103679508590507482, guid: 8799d3bf550042a42b8b0f68b8682069, type: 3}
   mousePosition: {x: 0, y: 0}
   revolving: 0
-  angleVariance: 30
+  angleVariance: 90
   playerToMouse: {x: 0, y: 0}
+--- !u!114 &1417590223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061963138789042695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa470206dff5b304baadf8af3ee94a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchMagnitude: 5
+  launchThreshold: 1
+  pointPrefab: {fileID: 7340383325950217858, guid: 529cfff5a558b3b48bc2dc5caa6c04b2, type: 3}
+  launchForce: 1
+  numberOfPoints: 5
+  trajectoryLineLength: 15
