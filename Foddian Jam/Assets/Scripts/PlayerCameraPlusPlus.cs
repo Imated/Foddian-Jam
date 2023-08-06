@@ -22,7 +22,6 @@ public class PlayerCameraPlusPlus : MonoBehaviour
 
     private void Update()
     {
-
         //Mapping speed value to a target zoom value
         float speedClamp = Mathf.Clamp(_playerRb.velocity.magnitude, minSpeedThreshold, maxSpeedThreshold);
         float proportion = (speedClamp - minSpeedThreshold) / (maxSpeedThreshold - minSpeedThreshold);
