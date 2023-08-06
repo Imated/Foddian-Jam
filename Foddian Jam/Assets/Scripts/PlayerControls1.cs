@@ -18,7 +18,6 @@ public class PlayerControls1 : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-10, 0);
     }
 
     private void Update()
