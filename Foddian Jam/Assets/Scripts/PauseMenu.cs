@@ -29,11 +29,11 @@ public class PauseMenu : MonoBehaviour
 
     public void mainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        TransitionManager.Instance.LoadSceneFade("Main Menu");
     }
 
     public void Quit()
     {
-        Application.Quit();
+        TransitionManager.Instance.Exit();
     }
 }
