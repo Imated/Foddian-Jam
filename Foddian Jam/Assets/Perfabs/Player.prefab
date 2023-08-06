@@ -205,10 +205,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorPointPrefab: {fileID: 103679508590507482, guid: 8799d3bf550042a42b8b0f68b8682069, type: 3}
-  mousePosition: {x: 0, y: 0}
-  revolving: 0
-  angleVariance: 90
-  playerToMouse: {x: 0, y: 0}
+  failAnchorPrefab: {fileID: 6611713631153810796, guid: 9f49ee9a4c3198f4ebaaa98cbbcdb0cd, type: 3}
+  lineRenderer: {fileID: 8099145446668432017, guid: 84a59e682684e2e43bf661f5e13c2c82, type: 3}
+  anchorPosition: {x: 0, y: 0}
+  angleVariance: 40
+  driftSpeed: 1
+  playerToAnchor: {x: 0, y: 0}
 --- !u!114 &1417590223
 MonoBehaviour:
   m_ObjectHideFlags: 0
