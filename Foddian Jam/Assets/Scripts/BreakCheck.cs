@@ -71,7 +71,14 @@ public class BreakCheck : MonoBehaviour
                     Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
 
                     // Apply deflection against velocity before collision
-                    rb.velocity = -(relVelocity) + deflectVelocity;
+                    //rb.velocity = -(relVelocity) + deflectVelocity;
+
+                    // ALTERNATE: Apply deflection as new velocity (wack because angle change)
+                    // rb.velocity = deflectVelocity;
+
+                    // ALTERNATE: Reflect velocity across normal to bounce
+                    Vector2 reflect = Vector2.Reflect(-relVelocity, averageNormal);
+                    rb.velocity = reflect * deflectionMod;
                 }
             }
             else // Not a sharp collision
