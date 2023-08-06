@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Cinemachine;
 using Random = UnityEngine.Random;
 
 public class BreakCheck : MonoBehaviour
@@ -22,8 +23,9 @@ public class BreakCheck : MonoBehaviour
     [SerializeField] float _timer;
 
     [SerializeField] AudioClip breakAudioClip;
-    [SerializeField] AudioClip glideAudioClip;
+    [SerializeField] AudioSource glideAudioSource;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] CameraShake cameraShake;
 
     private Vector2 _direction;
     private Vector2 _position;
@@ -56,6 +58,7 @@ public class BreakCheck : MonoBehaviour
                 if (relVelocity.magnitude >= speedThreshold)
                 {
                     audioSource.PlayOneShot(breakAudioClip);
+                    CameraShakeManager.instance.cameraShake(GetComponent<CinemachineImpulseSource>());
                     // At a 45 degree impact, go perpendicular to surface (Unity physics)
                     // At a 0 degree impact, go straight forward
 
@@ -74,7 +77,7 @@ public class BreakCheck : MonoBehaviour
             }
             else // Not a sharp collision
             {
-                audioSource.PlayOneShot(glideAudioClip);
+                glideAudioSource.gameObject.SetActive(true);
 
                 Vector2 magnetism = relVelocity.magnitude * magnetMod * -(averageNormal);
                 rb.velocity += magnetism;
@@ -128,6 +131,8 @@ public class BreakCheck : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        glideAudioSource.gameObject.SetActive(false);
+
         _timer = 0f;
     }
 
