@@ -9,9 +9,11 @@ public class BoundaryManager : MonoBehaviour
     [SerializeField] GameObject timer;
     [SerializeField] GameObject victoryText;
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        Rigidbody2D rigidBody = collision.gameObject.GetComponent<Rigidbody2D>();
+        if(!col.transform.CompareTag("Player"))
+            return;
+        var rigidBody = col.gameObject.GetComponent<Rigidbody2D>();
 
         if(rigidBody.velocity.magnitude >= boundaryBreakSpeed)
         {
