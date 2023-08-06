@@ -5,13 +5,19 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    float timer = 0;
     [SerializeField] TextMeshProUGUI textMeshProUGUI;
+
+    public bool timerActive = true;
+
+    float timer = 0;
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (timerActive)
+        {
+            timer += Time.deltaTime;
 
-        textMeshProUGUI.text = timer.ToString("0.0");
+            textMeshProUGUI.text = timer.ToString("0.0");
+        }
     }
 }
