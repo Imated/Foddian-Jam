@@ -25,7 +25,6 @@ public class BreakCheck : MonoBehaviour
     [SerializeField] AudioClip breakAudioClip;
     [SerializeField] AudioSource glideAudioSource;
     [SerializeField] AudioSource audioSource;
-    [SerializeField] CameraShake cameraShake;
 
     private Vector2 _direction;
     private Vector2 _position;
