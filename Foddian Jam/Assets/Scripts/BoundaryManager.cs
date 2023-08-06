@@ -21,7 +21,7 @@ public class BoundaryManager : MonoBehaviour
             boundaries.SetActive(false);
             victoryText.SetActive(true);
             timer.GetComponent<Timer>().timerActive = false;
-            StartCoroutine(leaderboard.SubmitScoreRoutine((int)Math.Floor(timer.GetComponent<Timer>().timer)));
+            StartCoroutine(leaderboard.SubmitScoreRoutine((int)Math.Floor(timer.GetComponent<Timer>().timer * 1000)));
         }
     }
 }
