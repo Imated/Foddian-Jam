@@ -14,8 +14,6 @@ public class PlayerCameraPlusPlus : MonoBehaviour
     [SerializeField] Rigidbody2D _playerRb;
     //private float _timer;
 
-    public bool cameraLock;
-
     private void Awake()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
