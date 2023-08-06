@@ -20,14 +20,14 @@ public class BoundaryManager : MonoBehaviour
 
         if (rigidBody.velocity.magnitude >= boundaryBreakSpeed)
         {
-            boundaries.SetActive(false);
             endGameUI.SetActive(true);
             endGameAnim.Play();
             endGameText.text = $"CONGRATULATIONS! \n" +
                                $"You have beaten the impossible in {(timer.GetComponent<Timer>().timer):F2} seconds.";
             timer.GetComponent<Timer>().timerActive = false;
             timer.SetActive(false);
-            StartCoroutine(leaderboard.SubmitScoreRoutine((int)Math.Floor(timer.GetComponent<Timer>().timer)));
+            leaderboard.StartSubmitScoreCoroutine((int) Math.Floor(timer.GetComponent<Timer>().timer)); // need this because this gameobject becomes inactive and will not run a coroutine
+            boundaries.SetActive(false);
         }
     }
 }
