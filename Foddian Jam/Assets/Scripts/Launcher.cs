@@ -36,36 +36,39 @@ public class Launcher : MonoBehaviour
      
     private void Update()
     {
-        var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-        var direction = mousePosition - transform.position;
-        _direction = direction;
-
-        float totalTime = 2 * launchForce / Mathf.Abs(Physics2D.gravity.y);
-
-        for (var i = 0; i < numberOfPoints; i++)
+        if (!PauseMenu.IsPaused)
         {
-            var t = totalTime * (i / (float)numberOfPoints);
-            _points[i].transform.position = PointPosition(t);
-        }
+            var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            var direction = mousePosition - transform.position;
+            _direction = direction;
 
-        if (_rigidbody.velocity.magnitude <= launchThreshold)
-        {
+            float totalTime = 2 * launchForce / Mathf.Abs(Physics2D.gravity.y);
+
             for (var i = 0; i < numberOfPoints; i++)
-                _points[i].SetActive(true);
-            if (Input.GetKeyDown(KeyCode.Space))
             {
-                var moveVector = mousePosition - new Vector3(transform.position.x, transform.position.y);
-            
-                Launch(moveVector);
-            
+                var t = totalTime * (i / (float)numberOfPoints);
+                _points[i].transform.position = PointPosition(t);
+            }
+
+            if (_rigidbody.velocity.magnitude <= launchThreshold)
+            {
+                for (var i = 0; i < numberOfPoints; i++)
+                    _points[i].SetActive(true);
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    var moveVector = mousePosition - new Vector3(transform.position.x, transform.position.y);
+
+                    Launch(moveVector);
+
+                    for (var i = 0; i < numberOfPoints; i++)
+                        _points[i].SetActive(false);
+                }
+            }
+            else
+            {
                 for (var i = 0; i < numberOfPoints; i++)
                     _points[i].SetActive(false);
             }
-        }
-        else
-        {
-            for (var i = 0; i < numberOfPoints; i++)
-                _points[i].SetActive(false);
         }
     }
 

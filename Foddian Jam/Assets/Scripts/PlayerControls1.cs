@@ -26,88 +26,85 @@ public class PlayerControls1 : MonoBehaviour
 
     private void Update()
     {
-        
-
-        if (Input.GetMouseButtonDown(0))
+        if (!PauseMenu.IsPaused)
         {
-            swivelLine = Instantiate(lineRenderer);
-            swivelLine.positionCount = 2;
-            anchorPosition = GetAnchorPosition();
-            swivelLine.SetPosition(1, anchorPosition);
-        }
 
-        if (Input.GetMouseButton(0))
-        {
-            swivelLine.SetPosition(0, gameObject.transform.position);
-            if (ReadyToRotate(anchorPosition)) {
+            if (Input.GetMouseButtonDown(0))
+            {
+                swivelLine = Instantiate(lineRenderer);
+                swivelLine.positionCount = 2;
+                anchorPosition = GetAnchorPosition();
+                swivelLine.SetPosition(1, anchorPosition);
+            }
 
-                // Set swivel line to red
-                var grad = new Gradient();
-                grad.colorKeys = new GradientColorKey[]
+            if (Input.GetMouseButton(0) && swivelLine != null)
+            {
+                swivelLine.SetPosition(0, gameObject.transform.position);
+
+                // Check if anchor is within tolerance for a full revolve
+                if (ReadyToRotate(anchorPosition)) 
                 {
+
+                    // Set swivel line to red
+                    var grad = new Gradient();
+                    grad.colorKeys = new GradientColorKey[]
+                    {
                     new GradientColorKey(Color.red, 0f),
                     new GradientColorKey(Color.red, 1f),
-                };
-                swivelLine.colorGradient = grad;
+                    };
+                    swivelLine.colorGradient = grad;
 
-                // Handle movement in a circle
-                Revolve();
+                    // Handle movement in a circle
+                    Revolve();
 
-                // Replace and create visual anchor
+                    // Replace and create visual anchor
+                    if (failAnchor != null)
+                    {
+                        Destroy(failAnchor);
+                    }
+                    if (anchorPoint == null)
+                    {
+                        anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
+                    }
+                }
+                else
+                {
+                    // Set swivel line to blue
+                    var grad = new Gradient();
+                    grad.colorKeys = new GradientColorKey[]
+                    {
+                    new GradientColorKey(Color.blue, 0f),
+                    new GradientColorKey(Color.blue, 1f),
+                    };
+                    swivelLine.colorGradient = grad;
+
+                    // Handle movement to enter a circle
+                    Drift();
+
+                    // Create visual anchor
+                    if (failAnchor == null)
+                    {
+                        failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
+                    }
+                }
+            }
+
+            if (!Input.GetMouseButton(0))
+            {
+                if (anchorPoint != null)
+                {
+                    Destroy(anchorPoint);
+                }
                 if (failAnchor != null)
                 {
                     Destroy(failAnchor);
                 }
-                if (anchorPoint == null)
+                if (swivelLine != null)
                 {
-                    anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
-                }
-            }
-            else
-            {
-                // Set swivel line to blue
-                var grad = new Gradient();
-                grad.colorKeys = new GradientColorKey[]
-                {
-                    new GradientColorKey(Color.blue, 0f),
-                    new GradientColorKey(Color.blue, 1f),
-                };
-                swivelLine.colorGradient = grad;
-
-                // Handle movement to enter a circle
-                Drift();
-
-                // Create visual anchor
-                if (failAnchor == null)
-                {
-                    failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
+                    Destroy(swivelLine);
                 }
             }
         }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (anchorPoint != null)
-            {
-                Destroy(anchorPoint);
-            }
-            if (failAnchor != null)
-            {
-                Destroy(failAnchor);
-            }
-            if (swivelLine != null)
-            {
-                Destroy(swivelLine);
-            }
-        }
-
-        // Find angle between player velocity and mouse
-        //if (Input.GetMouseButton(0))
-        //{
-        //    Vector2 playerToAnchor = GetAnchorPosition() - new Vector2(transform.position.x, transform.position.y);
-        //    float angle = Vector2.Angle(rb.velocity, playerToAnchor);
-        //    print(angle);
-        //}
     }
 
     bool ReadyToRotate(Vector2 clickPosition)
