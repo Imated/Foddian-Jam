@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4061963138789042694}
   - component: {fileID: 4061963138789042698}
   - component: {fileID: 4061963138789042701}
+  - component: {fileID: 4061963140273589651}
+  - component: {fileID: 1417590223}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -142,7 +144,7 @@ MonoBehaviour:
   angleThreshold: 45
   speedThreshold: 10
   useLinearGain: 1
-  linearSpeedGain: 0.1
+  linearSpeedGain: 0.5
   speedGainCurve:
     serializedVersion: 2
     m_Curve:
@@ -174,7 +176,23 @@ MonoBehaviour:
   magnetMod: 0.2
   curBreak: 0
   _timer: 0
+  breakAudioClip: {fileID: 0}
+  glideAudioClip: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!114 &4061963138789042701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061963138789042695}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290970c465ac18347b12a2eb4badc383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turningDegreesPerFrame: 0.5
+--- !u!114 &4061963140273589651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,13 +201,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 4061963138789042695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 290970c465ac18347b12a2eb4badc383, type: 3}
+  m_Script: {fileID: 11500000, guid: 475e6e737e1f98d4fa86bc07979f9ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turningDegreesPerFrame: 0.5
+  anchorPointPrefab: {fileID: 103679508590507482, guid: 8799d3bf550042a42b8b0f68b8682069, type: 3}
+  failAnchorPrefab: {fileID: 6611713631153810796, guid: 9f49ee9a4c3198f4ebaaa98cbbcdb0cd, type: 3}
+  lineRenderer: {fileID: 8099145446668432017, guid: 84a59e682684e2e43bf661f5e13c2c82, type: 3}
+  anchorPosition: {x: 0, y: 0}
+  angleVariance: 40
+  driftSpeed: 1
+  playerToAnchor: {x: 0, y: 0}
+--- !u!114 &1417590223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4061963138789042695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa470206dff5b304baadf8af3ee94a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   launchMagnitude: 5
   launchThreshold: 1
   pointPrefab: {fileID: 7340383325950217858, guid: 529cfff5a558b3b48bc2dc5caa6c04b2, type: 3}
   launchForce: 1
-  numberOfPoints: 5
-  trajectoryLineLength: 15
+  numberOfPoints: 7
+  trajectoryLineLength: 20

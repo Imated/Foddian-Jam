@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            textMeshProUGUI.text = timer.ToString("0.0");
+            textMeshProUGUI.text = timer.ToString("F2");
         }
     }
 }

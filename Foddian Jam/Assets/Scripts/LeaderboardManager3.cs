@@ -10,7 +10,7 @@ public class LeaderboardManager3 : MonoBehaviour
     public IEnumerator SubmitScoreRoutine(int scoreToUpload)
     {
         bool done = false;
-        string playerID = PlayerPrefs.GetString("PlaeyerID");
+        string playerID = PlayerPrefs.GetString("PlayerID");
 
         LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID.ToString(), (response) =>
         {
@@ -26,5 +26,10 @@ public class LeaderboardManager3 : MonoBehaviour
             }
         });
         yield return new WaitWhile(() => done = false);
+    }
+
+    public void StartSubmitScoreCoroutine(int score)
+    {
+        StartCoroutine(SubmitScoreRoutine(score));
     }
 }

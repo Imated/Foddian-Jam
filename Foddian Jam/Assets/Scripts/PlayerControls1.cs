@@ -7,69 +7,113 @@ public class PlayerControls1 : MonoBehaviour
 {
     Rigidbody2D rb;
     [SerializeField] GameObject anchorPointPrefab;
+    [SerializeField] GameObject failAnchorPrefab;
+    [SerializeField] LineRenderer lineRenderer;
+    LineRenderer swivelLine;
     GameObject anchorPoint;
+    GameObject failAnchor;
 
-    [SerializeField] Vector2 mousePosition;
-    [SerializeField] bool revolving = false;
+    [SerializeField] Vector2 anchorPosition;
     [SerializeField] float angleVariance;
-    [SerializeField] Vector2 playerToMouse;
+    [SerializeField] float driftSpeed;
+    [SerializeField] Vector2 playerToAnchor;
 
     
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-10, 0);
     }
 
     private void Update()
     {
+        
+
         if (Input.GetMouseButtonDown(0))
         {
-            mousePosition = GetMousePosition();
+            swivelLine = Instantiate(lineRenderer);
+            swivelLine.positionCount = 2;
+            anchorPosition = GetAnchorPosition();
+            swivelLine.SetPosition(1, anchorPosition);
         }
 
-        if (Input.GetMouseButton(0) && ReadyToRotate(mousePosition))
+        if (Input.GetMouseButton(0))
         {
-            revolving = true;
-            if (anchorPoint == null)
+            swivelLine.SetPosition(0, gameObject.transform.position);
+            if (ReadyToRotate(anchorPosition)) {
+
+                // Set swivel line to red
+                var grad = new Gradient();
+                grad.colorKeys = new GradientColorKey[]
+                {
+                    new GradientColorKey(Color.red, 0f),
+                    new GradientColorKey(Color.red, 1f),
+                };
+                swivelLine.colorGradient = grad;
+
+                // Handle movement in a circle
+                Revolve();
+
+                // Replace and create visual anchor
+                if (failAnchor != null)
+                {
+                    Destroy(failAnchor);
+                }
+                if (anchorPoint == null)
+                {
+                    anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
+                }
+            }
+            else
             {
-                anchorPoint = Instantiate(anchorPointPrefab, mousePosition, Quaternion.identity);
+                // Set swivel line to blue
+                var grad = new Gradient();
+                grad.colorKeys = new GradientColorKey[]
+                {
+                    new GradientColorKey(Color.blue, 0f),
+                    new GradientColorKey(Color.blue, 1f),
+                };
+                swivelLine.colorGradient = grad;
+
+                // Handle movement to enter a circle
+                Drift();
+
+                // Create visual anchor
+                if (failAnchor == null)
+                {
+                    failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
+                }
             }
         }
 
-        if (!Input.GetMouseButton(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            revolving = false;
             if (anchorPoint != null)
             {
                 Destroy(anchorPoint);
             }
-        }
-
-        if (revolving)
-        {
-            Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
-            float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
-            if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opoosite way
+            if (failAnchor != null)
             {
-                perpendicular = -perpendicular;
+                Destroy(failAnchor);
             }
-            rb.velocity = perpendicular.normalized * rb.velocity.magnitude;
+            if (swivelLine != null)
+            {
+                Destroy(swivelLine);
+            }
         }
 
         // Find angle between player velocity and mouse
         //if (Input.GetMouseButton(0))
         //{
-        //    Vector2 playerToMouse = GetMousePosition() - new Vector2(transform.position.x, transform.position.y);
-        //    float angle = Vector2.Angle(rb.velocity, playerToMouse);
+        //    Vector2 playerToAnchor = GetAnchorPosition() - new Vector2(transform.position.x, transform.position.y);
+        //    float angle = Vector2.Angle(rb.velocity, playerToAnchor);
         //    print(angle);
         //}
     }
 
     bool ReadyToRotate(Vector2 clickPosition)
     {
-        playerToMouse = clickPosition - new Vector2(transform.position.x, transform.position.y);
-        float angle = Vector2.Angle(rb.velocity, playerToMouse);
+        playerToAnchor = clickPosition - new Vector2(transform.position.x, transform.position.y);
+        float angle = Vector2.Angle(rb.velocity, playerToAnchor);
         // Angle of 0 is same direction, 90 is perpendicular either way, 180 is opposite
 
         if (angle >= (90 - angleVariance) && angle <= (90 + angleVariance))
@@ -82,9 +126,43 @@ public class PlayerControls1 : MonoBehaviour
         }
     }
 
-    Vector2 GetMousePosition()
+    Vector2 GetAnchorPosition()
     {
-        Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        return (mousePosition);
+        Vector2 anchorPosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        return (anchorPosition);
+    }
+
+    void Revolve()
+    {
+        Vector2 perpendicular = Vector2.Perpendicular(playerToAnchor);
+        float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
+        if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
+        {
+            perpendicular = -perpendicular;
+        }
+        rb.velocity = perpendicular.normalized * rb.velocity.magnitude;
+    }
+
+    void Drift()
+    {
+        Vector2 perpendicular = Vector2.Perpendicular(playerToAnchor);
+        float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
+        if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
+        {
+            perpendicular = -perpendicular;
+        }
+        float signedAngle = Vector2.SignedAngle(perpendicular, rb.velocity);
+        // Positive angle means velocity is CCW to perpendicular
+        // Negative angle means velocity is CW to perpendicular
+        Quaternion rotation;
+        if (signedAngle > 0)
+        {
+            rotation = Quaternion.AngleAxis(-driftSpeed, Vector3.forward);
+        } else
+        {
+            rotation = Quaternion.AngleAxis(driftSpeed, Vector3.forward);
+        }
+        rb.velocity = rotation * rb.velocity;
+        
     }
 }
