@@ -2,22 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LootLocker.Requests;
+using TMPro;
 
 public class Leaderboard : MonoBehaviour
 {
-    int leaderboardID = 16665;
+    public TextMeshProUGUI playerNames;
+    public TextMeshProUGUI playerScores;
 
-    public IEnumerator SubmitScoreRoutine(int scoreToUpload)
+    public IEnumerator fetchHighscoresRoutine()
     {
         bool done = false;
-        string playerID = PlayerPrefs.GetString("PlaeyerID");
-        
-        LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID.ToString(), (response) =>
+        LootLockerSDKManager.GetScoreList(16665.ToString(), 10, 0, (response) =>
         {
             if (response.success)
             {
-                Debug.Log("Successfully uploaded score");
+                string tempPlayerNames = "";
+                string tempPlayerScores = "";
+
+                LootLockerLeaderboardMember[] members = response.items;
+
+                for(int i = 0; i < members.Length; i++)
+                {
+                    if (members[i].player.name != "")
+                    {
+                        tempPlayerNames += members[i].player.name;
+                    }
+                    else
+                    {
+                        tempPlayerNames += members[i].player.id;
+                    }
+                    tempPlayerScores += members[i].score + "\n";
+                    tempPlayerNames += "\n";
+                }
                 done = true;
+                playerNames.text = tempPlayerNames;
+                playerScores.text = tempPlayerScores;
             }
             else
             {
@@ -25,6 +44,6 @@ public class Leaderboard : MonoBehaviour
                 done = true;
             }
         });
-        yield return new WaitWhile(() => done = false);
+        yield return new WaitWhile(() => done == false);
     }
 }
