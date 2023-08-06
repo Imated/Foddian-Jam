@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textMeshProUGUI;
 
-    public bool timerActive = true;
+    public bool timerActive;
     public float timer = 0;
 
     private void Update()

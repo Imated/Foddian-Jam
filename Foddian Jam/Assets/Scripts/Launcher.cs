@@ -6,6 +6,7 @@ public class Launcher : MonoBehaviour
     [SerializeField] float launchMagnitude = 5;
     [SerializeField] float launchThreshold = 1;
     [SerializeField] private GameObject pointPrefab;
+    [SerializeField] private Timer timer;
     [SerializeField] private float launchForce = 1;
     [SerializeField, Range(0, 30)] private int numberOfPoints = 5;
     [SerializeField, Range(0, 30)] private int trajectoryLineLength = 15;
@@ -75,5 +76,6 @@ public class Launcher : MonoBehaviour
     private void Launch(Vector2 direction)
     {
         _rigidbody.velocity = direction.normalized * launchMagnitude;
+        timer.timerActive = true;
     }
 }
