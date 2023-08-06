@@ -258,67 +258,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 60322678}
   m_CullTransparentMesh: 1
---- !u!1001 &447130713
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7127246991001550381, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_Name
-      value: Lootlocker Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550382, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: leaderboard
-      value: 
-      objectReference: {fileID: 1264493837}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 36.872944
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 557.12354
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -8.546692
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7127246991001550383, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d9d76ea21c8b2004694a7f65c6007f76, type: 3}
 --- !u!1 &745788216
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,7 +640,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640174822
 GameObject:
@@ -1007,6 +946,67 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &467446844111493722
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 601.9351
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 756.74805
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.2124047
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725456, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725458, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: m_Name
+      value: Loot Locker Menu Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 467446843993725459, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
+      propertyPath: leaderboard
+      value: 
+      objectReference: {fileID: 1264493837}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2f4168feb1a900044b8171921dfe5efe, type: 3}
 --- !u!1001 &4975327983948354529
 PrefabInstance:
   m_ObjectHideFlags: 0

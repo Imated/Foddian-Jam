@@ -10,7 +10,7 @@ public class BoundaryManager : MonoBehaviour
     [SerializeField] GameObject endGameUI;
     [SerializeField] Animation endGameAnim;
     [SerializeField] TMP_Text endGameText;
-    [SerializeField] Leaderboard leaderboard;
+    [SerializeField] LeaderboardManager3 leaderboard;
 
     private void OnCollisionEnter2D(Collision2D col)
     {
