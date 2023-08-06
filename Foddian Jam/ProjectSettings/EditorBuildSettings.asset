@@ -11,7 +11,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/My Scene DOnt TOuch.unity
     guid: 21e8c79c8e39f244680d1c5296105612
-  - enabled: 1
-    path: Assets/Scenes/Level Scene.unity
-    guid: ee0792afdda675e42af860e2d7337c5a
   m_configObjects: {}
