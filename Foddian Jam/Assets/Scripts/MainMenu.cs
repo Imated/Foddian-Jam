@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("Level Scene");
+        SceneManager.LoadScene("My Scene DOnt TOuch");
     }
 
     public void QuitGame()
