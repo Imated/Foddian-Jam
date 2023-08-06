@@ -7,11 +7,13 @@ public class PlayerControls1 : MonoBehaviour
 {
     Rigidbody2D rb;
     [SerializeField] GameObject anchorPointPrefab;
+    [SerializeField] GameObject failAnchorPrefab;
     GameObject anchorPoint;
+    GameObject failAnchor;
 
     [SerializeField] Vector2 mousePosition;
-    [SerializeField] bool revolving = false;
     [SerializeField] float angleVariance;
+    [SerializeField] float driftSpeed;
     [SerializeField] Vector2 playerToMouse;
 
     
@@ -28,33 +30,39 @@ public class PlayerControls1 : MonoBehaviour
             mousePosition = GetMousePosition();
         }
 
-        if (Input.GetMouseButton(0) && ReadyToRotate(mousePosition))
+        if (Input.GetMouseButton(0))
         {
-            revolving = true;
-            if (anchorPoint == null)
+            if (ReadyToRotate(mousePosition)) {
+                Revolve();
+                if (failAnchor != null)
+                {
+                    Destroy(failAnchor);
+                }
+                if (anchorPoint == null)
+                {
+                    anchorPoint = Instantiate(anchorPointPrefab, mousePosition, Quaternion.identity);
+                }
+            }
+            else
             {
-                anchorPoint = Instantiate(anchorPointPrefab, mousePosition, Quaternion.identity);
+                Drift();
+                if (failAnchor == null)
+                {
+                    failAnchor = Instantiate(failAnchorPrefab, mousePosition, Quaternion.identity);
+                }
             }
         }
 
         if (!Input.GetMouseButton(0))
         {
-            revolving = false;
             if (anchorPoint != null)
             {
                 Destroy(anchorPoint);
             }
-        }
-
-        if (revolving)
-        {
-            Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
-            float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
-            if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opoosite way
+            if (failAnchor != null)
             {
-                perpendicular = -perpendicular;
+                Destroy(failAnchor);
             }
-            rb.velocity = perpendicular.normalized * rb.velocity.magnitude;
         }
 
         // Find angle between player velocity and mouse
@@ -86,5 +94,39 @@ public class PlayerControls1 : MonoBehaviour
     {
         Vector2 mousePosition = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         return (mousePosition);
+    }
+
+    void Revolve()
+    {
+        Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
+        float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
+        if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
+        {
+            perpendicular = -perpendicular;
+        }
+        rb.velocity = perpendicular.normalized * rb.velocity.magnitude;
+    }
+
+    void Drift()
+    {
+        Vector2 perpendicular = Vector2.Perpendicular(playerToMouse);
+        float angleCheck = Vector2.Angle(rb.velocity, perpendicular);
+        if (angleCheck > 90) // Greater than 90 means perpendicular is facing the opposite way
+        {
+            perpendicular = -perpendicular;
+        }
+        float signedAngle = Vector2.SignedAngle(perpendicular, rb.velocity);
+        // Positive angle means velocity is CCW to perpendicular
+        // Negative angle means velocity is CW to perpendicular
+        Quaternion rotation;
+        if (signedAngle > 0)
+        {
+            rotation = Quaternion.AngleAxis(-driftSpeed, Vector3.forward);
+        } else
+        {
+            rotation = Quaternion.AngleAxis(driftSpeed, Vector3.forward);
+        }
+        rb.velocity = rotation * rb.velocity;
+        
     }
 }
