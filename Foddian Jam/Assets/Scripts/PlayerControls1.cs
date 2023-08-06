@@ -22,7 +22,7 @@ public class PlayerControls1 : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(-10, 0);        
+        rb.velocity = new Vector2(-10, 0); 
     }
 
     private void Update()
@@ -41,7 +41,20 @@ public class PlayerControls1 : MonoBehaviour
         {
             swivelLine.SetPosition(0, gameObject.transform.position);
             if (ReadyToRotate(anchorPosition)) {
+
+                // Set swivel line to red
+                var grad = new Gradient();
+                grad.colorKeys = new GradientColorKey[]
+                {
+                    new GradientColorKey(Color.red, 0f),
+                    new GradientColorKey(Color.red, 1f),
+                };
+                swivelLine.colorGradient = grad;
+
+                // Handle movement in a circle
                 Revolve();
+
+                // Replace and create visual anchor
                 if (failAnchor != null)
                 {
                     Destroy(failAnchor);
@@ -53,7 +66,19 @@ public class PlayerControls1 : MonoBehaviour
             }
             else
             {
+                // Set swivel line to blue
+                var grad = new Gradient();
+                grad.colorKeys = new GradientColorKey[]
+                {
+                    new GradientColorKey(Color.blue, 0f),
+                    new GradientColorKey(Color.blue, 1f),
+                };
+                swivelLine.colorGradient = grad;
+
+                // Handle movement to enter a circle
                 Drift();
+
+                // Create visual anchor
                 if (failAnchor == null)
                 {
                     failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
