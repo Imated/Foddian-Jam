@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a33f5fc8cdbef147ba9cc33bf8a3b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  ballCollider: {fileID: 0}
+  rb: {fileID: 4061963138789042697}
+  ballCollider: {fileID: 4061963138789042694}
   angleThreshold: 45
   speedThreshold: 10
   useLinearGain: 1
@@ -176,8 +176,8 @@ MonoBehaviour:
   magnetMod: 0.2
   curBreak: 0
   _timer: 0
-  breakAudioClip: {fileID: 0}
-  glideAudioClip: {fileID: 0}
+  breakAudioClip: {fileID: 8300000, guid: 305b74bd2c73d8a429493c2a12862fa3, type: 3}
+  glideAudioClip: {fileID: 8300000, guid: 6ce3ed87dcf9ad940ab4a27ec8914759, type: 3}
   audioSource: {fileID: 0}
 --- !u!114 &4061963138789042701
 MonoBehaviour:
