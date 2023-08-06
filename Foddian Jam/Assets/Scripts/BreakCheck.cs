@@ -62,8 +62,8 @@ public class BreakCheck : MonoBehaviour
                     // Set flags
                     print("break");
                     print("impact angle: " + impactAngle);
-                    curBreak = true;
-                    ballCollider.isTrigger = true;
+                    //curBreak = true;
+                    //ballCollider.isTrigger = true;
 
                     // Calculate deflection velocity vector
                     Vector2 deflectVelocity = relVelocity.magnitude * deflectionMod * averageNormal;
