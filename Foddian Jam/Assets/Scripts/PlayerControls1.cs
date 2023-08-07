@@ -32,7 +32,7 @@ public class PlayerControls1 : MonoBehaviour
 
     private void Update()
     {
-        if (!PauseMenu.IsPaused) 
+        if (!PauseMenu.IsPaused && !BoundaryManager.HasGameEnded) 
         {
             if(rb.velocity.magnitude <= 1f)
                 return;

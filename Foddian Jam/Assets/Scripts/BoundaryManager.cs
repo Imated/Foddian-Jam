@@ -1,6 +1,3 @@
-using System;
-using Cinemachine;
-using DG.Tweening;
 using UnityEngine;
 using TMPro;
 
@@ -22,23 +19,20 @@ public class BoundaryManager : MonoBehaviour
     {
         if(!col.transform.CompareTag("Player"))
             return;
-        var rigidBody = col.gameObject.GetComponent<Rigidbody2D>();
 
-        if (rigidBody.velocity.magnitude >= boundaryBreakSpeed)
+        if (col.relativeVelocity.magnitude >= boundaryBreakSpeed)
         {
             timer.SetActive(false);
             endGameUI.SetActive(true);
             endGameUIAnimator.Play("End Game UI");
             endGameText.text = $"CONGRATULATIONS! \n" +
                                $"You have beaten the impossible in {(timer.GetComponent<Timer>().timer):F2} seconds.";
-            print("a");
             leaderboard.StartSubmitScoreCoroutine((int) (timer.GetComponent<Timer>().timer * 100)); // need this because this gameobject becomes inactive and will not run a coroutine
             boundaries.SetActive(false);
-            print("b");
 
             mainMusic.gameObject.SetActive(false);
             endMusic.gameObject.SetActive(true);
-
+            
             HasGameEnded = true;
         }
     }
