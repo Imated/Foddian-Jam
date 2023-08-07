@@ -14,9 +14,10 @@ public class NameSelectionUI : MonoBehaviour
     {
         if(PlayerPrefs.GetInt("SetUsername", 0) == 1)
             gameObject.SetActive(false);
+#if UNITY_EDITOR
         EditorApplication.playModeStateChanged += StateChange;
+#endif
     }
-
 #if UNITY_EDITOR
     void StateChange(PlayModeStateChange state)
     {
