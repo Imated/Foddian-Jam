@@ -32,7 +32,7 @@ public class BoundaryManager : MonoBehaviour
             endGameText.text = $"CONGRATULATIONS! \n" +
                                $"You have beaten the impossible in {(timer.GetComponent<Timer>().timer):F2} seconds.";
             print("a");
-            leaderboard.StartSubmitScoreCoroutine((int) Math.Floor(timer.GetComponent<Timer>().timer)); // need this because this gameobject becomes inactive and will not run a coroutine
+            leaderboard.StartSubmitScoreCoroutine((int) (timer.GetComponent<Timer>().timer * 100)); // need this because this gameobject becomes inactive and will not run a coroutine
             boundaries.SetActive(false);
             print("b");
 

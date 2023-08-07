@@ -5,24 +5,40 @@ using LootLocker.Requests;
 
 public class LeaderboardManager3 : MonoBehaviour
 {
-    int leaderboardID = 16665;
+    int leaderboardID = 16693;
 
     public IEnumerator SubmitScoreRoutine(int scoreToUpload)
     {
         bool done = false;
         string playerID = PlayerPrefs.GetString("PlayerID");
 
-        LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID.ToString(), (response) =>
+        LootLockerSDKManager.GetMemberRank(16693.ToString(), playerID, (response) =>
         {
-            if (response.success)
+            if (response.statusCode == 200) 
             {
-                Debug.Log("Successfully uploaded score");
-                done = true;
-            }
-            else
+                Debug.Log("Successful");
+                if (scoreToUpload < response.score || response.score == 0)
+                {
+                    print($"Score: {scoreToUpload}, PlayerID: {playerID}");
+                    LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID.ToString(), (response) =>
+                    {
+                        if (response.success)
+                        {
+                            print($"Score: {response.score}, PlayerID: {response.member_id}");
+                            Debug.Log("Successfully uploaded score");
+                            done = true;
+                        }
+                        else
+                        {
+                            Debug.Log("Failed" + response.Error);
+                            done = true;
+                        }
+                    });
+                }
+            } 
+            else 
             {
-                Debug.Log("Failed" + response.Error);
-                done = true;
+                Debug.Log("failed: " + response.Error);
             }
         });
         yield return new WaitWhile(() => done = false);

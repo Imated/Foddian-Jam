@@ -1,3 +1,4 @@
+using LootLocker.Requests;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class NameSelectionUI : MonoBehaviour
     
     public void SetName()
     {
-        
+        LootLockerSDKManager.SetPlayerName(nameField.text, (response) =>
+        {
+            
+        });
     }
 }

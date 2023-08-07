@@ -813,6 +813,10 @@ PrefabInstance:
       propertyPath: hoverSound
       value: 
       objectReference: {fileID: 8300000, guid: 798115f85666d204ca2c1d7b54ade65a, type: 3}
+    - target: {fileID: 1524069767, guid: 9b8f5a7b1dc27554abbb570c7d09a00a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1597268971, guid: 9b8f5a7b1dc27554abbb570c7d09a00a, type: 3}
       propertyPath: clickSound
       value: 
