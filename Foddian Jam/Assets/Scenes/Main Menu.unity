@@ -825,6 +825,14 @@ PrefabInstance:
       propertyPath: hoverSound
       value: 
       objectReference: {fileID: 8300000, guid: 798115f85666d204ca2c1d7b54ade65a, type: 3}
+    - target: {fileID: 4975327982592292760, guid: 9b8f5a7b1dc27554abbb570c7d09a00a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -27.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4975327982592292763, guid: 9b8f5a7b1dc27554abbb570c7d09a00a, type: 3}
+      propertyPath: m_text
+      value: BREAKING BOUNDARIES
+      objectReference: {fileID: 0}
     - target: {fileID: 4975327983502536767, guid: 9b8f5a7b1dc27554abbb570c7d09a00a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

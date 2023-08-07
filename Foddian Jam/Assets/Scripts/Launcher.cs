@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Launcher : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class Launcher : MonoBehaviour
             {
                 for (var i = 0; i < numberOfPoints; i++)
                     _points[i].SetActive(true);
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetMouseButtonDown(0))
                 {
                     var moveVector = mousePosition - new Vector3(transform.position.x, transform.position.y);
 
