@@ -15,6 +15,8 @@ public class BoundaryManager : MonoBehaviour
     [SerializeField] private Animator endGameUIAnimator;
     [SerializeField] private TMP_Text endGameText;
     [SerializeField] private LeaderboardManager3 leaderboard;
+    [SerializeField] private AudioSource mainMusic;
+    [SerializeField] private AudioSource endMusic;
 
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -33,6 +35,10 @@ public class BoundaryManager : MonoBehaviour
             leaderboard.StartSubmitScoreCoroutine((int) Math.Floor(timer.GetComponent<Timer>().timer)); // need this because this gameobject becomes inactive and will not run a coroutine
             boundaries.SetActive(false);
             print("b");
+
+            mainMusic.gameObject.SetActive(false);
+            endMusic.gameObject.SetActive(true);
+
             HasGameEnded = true;
         }
     }
