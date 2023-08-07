@@ -13,6 +13,7 @@ public class PlayerControls1 : MonoBehaviour
     GameObject anchorPoint;
     GameObject failAnchor;
 
+    bool allowAnchor;
     [SerializeField] Vector2 anchorPosition;
     [SerializeField] float angleVariance;
     [SerializeField] float driftSpeed;
@@ -22,6 +23,7 @@ public class PlayerControls1 : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        allowAnchor = true;
     }
 
     private void Update()
@@ -42,33 +44,10 @@ public class PlayerControls1 : MonoBehaviour
                 swivelLine.SetPosition(0, gameObject.transform.position);
 
                 // Check if anchor is within tolerance for a full revolve
-                if (ReadyToRotate(anchorPosition)) 
+                // Angle of 0 is same direction, 90 is perpendicular either way, 180 is opposite
+                if (AnchorAngle(anchorPosition) >= 90 + angleVariance) // Anchor in back
                 {
-
-                    // Set swivel line to red
-                    var grad = new Gradient();
-                    grad.colorKeys = new GradientColorKey[]
-                    {
-                    new GradientColorKey(Color.red, 0f),
-                    new GradientColorKey(Color.red, 1f),
-                    };
-                    swivelLine.colorGradient = grad;
-
-                    // Handle movement in a circle
-                    Revolve();
-
-                    // Replace and create visual anchor
-                    if (failAnchor != null)
-                    {
-                        Destroy(failAnchor);
-                    }
-                    if (anchorPoint == null)
-                    {
-                        anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
-                    }
-                }
-                else
-                {
+                    // Drift to match projected circle
                     // Set swivel line to blue
                     var grad = new Gradient();
                     grad.colorKeys = new GradientColorKey[]
@@ -79,12 +58,78 @@ public class PlayerControls1 : MonoBehaviour
                     swivelLine.colorGradient = grad;
 
                     // Handle movement to enter a circle
-                    Drift();
+                    if (allowAnchor)
+                    {
+                        Drift();
+                    }
 
                     // Create visual anchor
                     if (failAnchor == null)
                     {
                         failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
+                    }
+                    if (anchorPoint != null)
+                    {
+                        Destroy(anchorPoint);
+                    }
+                }
+                else if (AnchorAngle(anchorPosition) <= 90 - angleVariance) // Anchor in front
+                {
+                    // Pull toward the pivot
+                    // Set swivel line to blue
+                    var grad = new Gradient();
+                    grad.colorKeys = new GradientColorKey[]
+                    {
+                    new GradientColorKey(Color.blue, 0f),
+                    new GradientColorKey(Color.blue, 1f),
+                    };
+                    swivelLine.colorGradient = grad;
+
+                    // DO NOTHING I GUESS??????
+                    // You CAN use Pull() but it's too easy
+
+                    // Handle movement to pull toward the pivot
+                    //if (allowAnchor)
+                    //{
+                    //    Pull();
+                    //}
+
+                    // Create visual anchor
+                    if (failAnchor == null)
+                    {
+                        failAnchor = Instantiate(failAnchorPrefab, anchorPosition, Quaternion.identity);
+                    }
+                    if (anchorPoint != null)
+                    {
+                        Destroy(anchorPoint);
+                    }
+                }
+                else // Anchor is within tolerance
+                {
+                    // Properly revolve
+                    // Set swivel line to red
+                    var grad = new Gradient();
+                    grad.colorKeys = new GradientColorKey[]
+                    {
+                    new GradientColorKey(Color.red, 0f),
+                    new GradientColorKey(Color.red, 1f),
+                    };
+                    swivelLine.colorGradient = grad;
+
+                    // Handle movement in a circle
+                    if (allowAnchor)
+                    {
+                        Revolve();
+                    }
+
+                    // Replace and create visual anchor
+                    if (failAnchor != null)
+                    {
+                        Destroy(failAnchor);
+                    }
+                    if (anchorPoint == null)
+                    {
+                        anchorPoint = Instantiate(anchorPointPrefab, anchorPosition, Quaternion.identity);
                     }
                 }
             }
@@ -107,20 +152,29 @@ public class PlayerControls1 : MonoBehaviour
         }
     }
 
-    bool ReadyToRotate(Vector2 clickPosition)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            allowAnchor = false;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            allowAnchor = true;
+        }
+    }
+
+    float AnchorAngle(Vector2 clickPosition)
     {
         playerToAnchor = clickPosition - new Vector2(transform.position.x, transform.position.y);
         float angle = Vector2.Angle(rb.velocity, playerToAnchor);
-        // Angle of 0 is same direction, 90 is perpendicular either way, 180 is opposite
 
-        if (angle >= (90 - angleVariance) && angle <= (90 + angleVariance))
-        {
-            return (true);
-        }
-        else
-        {
-            return (false);
-        }
+        // Angle of 0 is same direction, 90 is perpendicular either way, 180 is opposite
+        return angle;
     }
 
     Vector2 GetAnchorPosition()
@@ -161,5 +215,22 @@ public class PlayerControls1 : MonoBehaviour
         }
         rb.velocity = rotation * rb.velocity;
         
+    }
+
+    void Pull()
+    {
+        float signedAngle = Vector2.SignedAngle(playerToAnchor, rb.velocity);
+        // Positive angle means velocity is CCW to perpendicular
+        // Negative angle means velocity is CW to perpendicular
+        Quaternion rotation;
+        if (signedAngle > 0)
+        {
+            rotation = Quaternion.AngleAxis(-driftSpeed, Vector3.forward);
+        }
+        else
+        {
+            rotation = Quaternion.AngleAxis(driftSpeed, Vector3.forward);
+        }
+        rb.velocity = rotation * rb.velocity;
     }
 }
