@@ -127,6 +127,12 @@ public class BreakCheck : MonoBehaviour
                 _timer += Time.deltaTime;
             }
             
+            var rotationAmount = collision.relativeVelocity.magnitude * 0.5f;
+            var normal = collision.contacts[0].normal;
+            float direction = Vector3.Cross(collision.relativeVelocity, normal).z > 0 ? 1 : -1;  // Determine if clockwise or counter-clockwise
+            transform.Rotate(0, 0, rotationAmount * direction);
+
+            
             // Find normal of curve surface
             Vector2 averageNormal = Vector2.zero;
             foreach (ContactPoint2D contact in collision.contacts)
