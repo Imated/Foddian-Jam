@@ -28,9 +28,8 @@ public class PlayerControls1 : MonoBehaviour
 
     private void Update()
     {
-        if (!PauseMenu.IsPaused)
+        if (!PauseMenu.IsPaused || rb.velocity.magnitude <= GetComponent<Launcher>().launchThreshold) 
         {
-
             if (Input.GetMouseButtonDown(0))
             {
                 swivelLine = Instantiate(lineRenderer);

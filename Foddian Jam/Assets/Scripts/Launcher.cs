@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class Launcher : MonoBehaviour
 {
     [SerializeField] float launchMagnitude = 5;
-    [SerializeField] float launchThreshold = 1;
+    public float launchThreshold = 1;
     [SerializeField] private GameObject pointPrefab;
     [SerializeField] private Timer timer;
     [SerializeField] private float launchForce = 1;
