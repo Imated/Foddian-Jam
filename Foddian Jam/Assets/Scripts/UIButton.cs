@@ -20,7 +20,7 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Awake()
     {
-        _source = GetComponentInChildren<AudioSource>();
+        _source = GetComponent<AudioSource>();
         _defaultScale = transform.localScale.x;
     }
 

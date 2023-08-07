@@ -74,6 +74,13 @@ public class BreakCheck : MonoBehaviour
                     // Apply deflection against velocity before collision
                     rb.velocity = -(relVelocity) + deflectVelocity;
                 }
+                else // Not a fast enough collision
+                {
+                    glideAudio.gameObject.SetActive(true);
+
+                    // Vector2 magnetism = relVelocity.magnitude * magnetMod * -(averageNormal);
+                    // rb.velocity += magnetism;
+                }
             }
             else // Not a sharp collision
             {

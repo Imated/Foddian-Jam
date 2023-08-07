@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7127246991001550383}
-  - component: {fileID: 7127246991001550382}
+  - component: {fileID: 2084281822692051213}
   m_Layer: 0
   m_Name: Loot locker Level  Manager
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7127246991001550382
+--- !u!114 &2084281822692051213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,6 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7127246991001550381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e3f6e6b96039d545816faa654dc0cef, type: 3}
+  m_Script: {fileID: 11500000, guid: fa4399e28f077094498ec22bd94a1f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
