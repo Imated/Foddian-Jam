@@ -12,7 +12,7 @@ public class Leaderboard : MonoBehaviour
     public IEnumerator fetchHighscoresRoutine()
     {
         bool done = false;
-        LootLockerSDKManager.GetScoreList(16665.ToString(), 10, 0, (response) =>
+        LootLockerSDKManager.GetScoreList(16693.ToString(), 25, 0, (response) =>
         {
             if (response.success)
             {
@@ -31,7 +31,7 @@ public class Leaderboard : MonoBehaviour
                     {
                         tempPlayerNames += members[i].player.id;
                     }
-                    tempPlayerScores += members[i].score + "\n";
+                    tempPlayerScores += members[i].score / 100f + "\n";
                     tempPlayerNames += "\n";
                 }
                 done = true;

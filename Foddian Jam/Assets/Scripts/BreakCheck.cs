@@ -1,13 +1,10 @@
-using System;
 using UnityEngine;
 using Cinemachine;
-using Random = UnityEngine.Random;
 
 public class BreakCheck : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Collider2D ballCollider;
-    
+
     [SerializeField] float angleThreshold;
     [SerializeField] float speedThreshold;
     [SerializeField] bool useLinearGain;
@@ -18,8 +15,7 @@ public class BreakCheck : MonoBehaviour
     [SerializeField] float spedFragmentsRandomOffset = 2f;
     [SerializeField] float deflectionMod;
     [SerializeField] float magnetMod;
-
-    [SerializeField] bool curBreak;
+    
     [SerializeField] float _timer;
 
     [SerializeField] AudioClip breakAudioClip;
@@ -33,9 +29,6 @@ public class BreakCheck : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        ballCollider = GetComponent<Collider2D>();
-
-        curBreak = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -99,21 +92,11 @@ public class BreakCheck : MonoBehaviour
                 rb.velocity += magnetism;
             }
         }
-        else
-        {
-            print("wrong tag lmao");
-        }
     }
-
-    // private void Update()
-    // {
-    //     if (_timer > 1f)
-    //         _timer = 0f;
-    // }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle") && !curBreak)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
             if (useLinearGain) // Linear speed scaling
             {
@@ -145,27 +128,11 @@ public class BreakCheck : MonoBehaviour
             Vector2 magnetism = rb.velocity.magnitude * magnetMod * -(averageNormal);
             rb.velocity += magnetism;
         }
-        else
-        {
-            print("wrong tag lmao");
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         glideAudio.gameObject.SetActive(false);
-        _timer = 0f;
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.gameObject.CompareTag("Obstacle") && curBreak)
-        {
-            ballCollider.isTrigger = false;
-            _position = transform.position;
-            SpawnSpeedFragments();
-            curBreak = false;
-        }
         _timer = 0f;
     }
 
