@@ -26,6 +26,7 @@ public class BreakCheck : MonoBehaviour
     [SerializeField] AudioSource glideAudio;
     [SerializeField] AudioSource audioSource;
     [SerializeField] CinemachineImpulseSource cinemachineImpulseSource;
+    [SerializeField] ParticleSystem glideParticles;
 
     private Vector2 _direction;
     private Vector2 _position;
@@ -94,6 +95,8 @@ public class BreakCheck : MonoBehaviour
             else // Not a sharp collision
             {
                 glideAudio.gameObject.SetActive(true);
+                glideParticles.gameObject.SetActive(true);
+                glideParticles.gameObject.transform.position =  collision.GetContact(0).point;
 
                 Vector2 magnetism = relVelocity.magnitude * magnetMod * -(averageNormal);
                 rb.velocity += magnetism;
@@ -148,6 +151,8 @@ public class BreakCheck : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         glideAudio.gameObject.SetActive(false);
+        glideParticles.gameObject.SetActive(false);
+
         _timer = 0f;
     }
 
