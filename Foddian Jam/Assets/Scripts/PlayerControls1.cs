@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerControls1 : MonoBehaviour
 {
     Rigidbody2D rb;
+    [SerializeField] AudioSource StartTurnSFX;
+    [SerializeField] AudioSource StopTurnSFX;
     [SerializeField] GameObject anchorPointPrefab;
     [SerializeField] GameObject failAnchorPrefab;
     [SerializeField] LineRenderer lineRenderer;
@@ -14,6 +16,7 @@ public class PlayerControls1 : MonoBehaviour
     GameObject failAnchor;
 
     bool allowAnchor;
+    bool turning;
     [SerializeField] Vector2 anchorPosition;
     [SerializeField] float angleVariance;
     [SerializeField] float driftSpeed;
@@ -24,6 +27,7 @@ public class PlayerControls1 : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         allowAnchor = true;
+        turning = false;
     }
 
     private void Update()
@@ -38,6 +42,8 @@ public class PlayerControls1 : MonoBehaviour
                 swivelLine.positionCount = 2;
                 anchorPosition = GetAnchorPosition();
                 swivelLine.SetPosition(1, anchorPosition);
+                StartTurnSFX.Play();
+                turning = true;
             }
 
             if (Input.GetMouseButton(0) && swivelLine != null)
@@ -137,6 +143,11 @@ public class PlayerControls1 : MonoBehaviour
 
             if (!Input.GetMouseButton(0))
             {
+                if (turning)
+                {
+                    StopTurnSFX.Play();
+                    turning = false;
+                }
                 if (anchorPoint != null)
                 {
                     Destroy(anchorPoint);
