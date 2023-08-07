@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4061963138789042697}
-  angleThreshold: 45
+  angleThreshold: 40
   speedThreshold: 10
   useLinearGain: 1
   linearSpeedGain: 0.5
