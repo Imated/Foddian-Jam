@@ -29,6 +29,8 @@ public class PauseMenu : MonoBehaviour
 
     public void mainMenu()
     {
+        IsPaused = false;
+        Time.timeScale = 1f;
         TransitionManager.Instance.LoadSceneFade("Main Menu");
     }
 
