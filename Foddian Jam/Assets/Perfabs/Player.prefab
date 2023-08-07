@@ -109,7 +109,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 03d90b2ab35efcb45bc3b9c6152c8e55, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -142,7 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4061963138789042697}
-  ballCollider: {fileID: 4061963138789042694}
   angleThreshold: 45
   speedThreshold: 10
   useLinearGain: 1
@@ -176,7 +175,6 @@ MonoBehaviour:
   spedFragmentsRandomOffset: 1
   deflectionMod: 0.8
   magnetMod: 0.2
-  curBreak: 0
   _timer: 0
   breakAudioClip: {fileID: 8300000, guid: 305b74bd2c73d8a429493c2a12862fa3, type: 3}
   glideAudio: {fileID: 0}
