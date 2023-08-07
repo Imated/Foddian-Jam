@@ -127,6 +127,8 @@ public class BreakCheck : MonoBehaviour
             // Apply magnet velocity toward curve
             Vector2 magnetism = rb.velocity.magnitude * magnetMod * -(averageNormal);
             rb.velocity += magnetism;
+
+            glideAudio.gameObject.SetActive(!PauseMenu.IsPaused);
         }
     }
 

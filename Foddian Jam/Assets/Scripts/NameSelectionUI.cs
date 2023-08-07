@@ -13,7 +13,7 @@ public class NameSelectionUI : MonoBehaviour
     private void Awake()
     {
         if(PlayerPrefs.GetInt("SetUsername", 0) == 1)
-            gameObject.SetActive(false);
+            gameObject.SetActive(true);
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += StateChange;
 #endif
@@ -30,7 +30,7 @@ public class NameSelectionUI : MonoBehaviour
     
     private void Update()
     {
-        if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKey(KeyCode.F4))
+        if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) || Input.GetKey(KeyCode.F4))
             OnApplicationQuit();
     }
 
